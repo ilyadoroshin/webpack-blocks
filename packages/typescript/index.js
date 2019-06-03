@@ -16,7 +16,10 @@ function typescript(options = {}) {
   return (context, util) =>
     util.merge({
       resolve: {
-        extensions: ['.ts', '.tsx']
+        extensions: ['.ts', '.tsx'],
+        plugins: [
+          new TsConfigPathsPlugin({ tsconfig: options.configFileName, compiler: options.compiler }) // This hooks into webpacks module resolution, configure via tsconfig.json          
+        ]
       },
       module: {
         rules: [
@@ -36,7 +39,6 @@ function typescript(options = {}) {
       },
       plugins: [
         new CheckerPlugin(),
-        new TsConfigPathsPlugin({ tsconfig: options.configFileName, compiler: options.compiler }) // This hooks into webpacks module resolution, configure via tsconfig.json
       ]
     })
 }
